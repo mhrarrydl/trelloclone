@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutero_test/config/constants/key_constants.dart';
 import 'package:tutero_test/model/card_model.dart';
-import 'package:tutero_test/view/widgets/hover_placeholder_widget.dart';
+import 'package:tutero_test/view/widgets/hover_card_placeholder_widget.dart';
 import 'package:tutero_test/view_model/board_view_model.dart';
 // import 'dart:developer' as devtools show log;
 
@@ -68,24 +68,17 @@ class CardWidget extends StatelessWidget {
           if (isHovering) {
             var fromCardIndex = acceptedData.first![keyAppFromCardIndex]!;
             var fromListIndex = acceptedData.first![keyAppFromListIndex]!;
-            isIndexBefore = (
-                // The card index is 1 less or 2 less or lesser than fromCardIndex
-                listIndex == fromListIndex && cardIndex <= fromCardIndex - 1 ||
+            isIndexBefore =
+                (listIndex == fromListIndex && cardIndex <= fromCardIndex - 1 ||
                     cardIndex <= fromCardIndex - 2 ||
-                    // The card index is more than, equal to, or less than fromCardIndex but in a different list
                     (listIndex != fromListIndex &&
                         (cardIndex >= fromCardIndex ||
                             cardIndex == fromCardIndex ||
                             cardIndex < fromCardIndex)));
           }
-
-          // if (isHovering) {
-          //   devtools.log(
-          //       "${acceptedData.first}, cardIndex: $cardIndex, listIndex: $listIndex");
-          // }
           return Column(
             children: [
-              if (isHovering && isIndexBefore) const HoveringPlaceHolder(),
+              if (isHovering && isIndexBefore) const HoveringCardPlaceHolder(),
               Card(
                 child: ListTile(
                   title: Text(card.title),
@@ -99,7 +92,7 @@ class CardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              if (isHovering && !isIndexBefore) const HoveringPlaceHolder(),
+              if (isHovering && !isIndexBefore) const HoveringCardPlaceHolder(),
             ],
           );
         },

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class HoveringPlaceHolder extends StatelessWidget {
+class HoveringCardPlaceHolder extends StatelessWidget {
   final Color color;
-  const HoveringPlaceHolder({
+  const HoveringCardPlaceHolder({
     super.key,
     this.color = Colors.grey,
   });
