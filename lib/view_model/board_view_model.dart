@@ -92,8 +92,22 @@ class BoardViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCard(int listIndex, String title) {
-    _lists[listIndex].addCard(listIndex, title);
+  void moveList(int fromListIndex, int toListIndex) {
+    final list = _lists.removeAt(fromListIndex);
+    _lists.insert(toListIndex, list);
+    notifyListeners();
+  }
+
+  void addCard({
+    required int listIndex,
+    required String title,
+    String? imagePath,
+  }) {
+    _lists[listIndex].addCard(
+      listIndex: listIndex,
+      title: title,
+      imagePath: imagePath,
+    );
     notifyListeners();
   }
 
@@ -112,12 +126,6 @@ class BoardViewModel extends ChangeNotifier {
     final listIndex = toListIndex ?? fromListIndex;
     final cardIndex = toCardIndex ?? fromCardIndex;
     _lists[listIndex].cards.insert(cardIndex, card);
-    notifyListeners();
-  }
-
-  void moveList(int fromListIndex, int toListIndex) {
-    final list = _lists.removeAt(fromListIndex);
-    _lists.insert(toListIndex, list);
     notifyListeners();
   }
 }

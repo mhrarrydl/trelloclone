@@ -2,6 +2,7 @@
 const String keyId = 'id';
 const String keyTitle = 'title';
 const String keyDateCreated = 'dateCreated';
+const String keyImagePath = 'imagePath';
 const String keyCards = 'cards';
 
 // In app keys

@@ -26,13 +26,18 @@ class ListModel {
     return resultMap;
   }
 
-  void addCard(int listIndex, String title) {
+  void addCard({
+    required int listIndex,
+    required String title,
+    String? imagePath,
+  }) {
     final id = DateTime.now().millisecondsSinceEpoch.abs();
     cards.add(
       CardModel(
         title: title,
         dateCreated: DateTime.now(),
         id: id,
+        imagePath: imagePath,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutero_test/config/constants/key_constants.dart';
+import 'package:tutero_test/config/utils/utility.dart';
 import 'package:tutero_test/model/card_model.dart';
 import 'package:tutero_test/view/widgets/hover_card_placeholder_widget.dart';
 import 'package:tutero_test/view_model/board_view_model.dart';
@@ -35,7 +36,7 @@ class CardWidget extends StatelessWidget {
               ),
             ),
             subtitle: Text(
-              card.dateCreated.toString(),
+              Utility().formatDate(card.dateCreated),
               style: const TextStyle(
                 color: Colors.white,
               ),
@@ -77,20 +78,73 @@ class CardWidget extends StatelessWidget {
                             cardIndex < fromCardIndex)));
           }
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (isHovering && isIndexBefore) const HoveringCardPlaceHolder(),
-              Card(
-                child: ListTile(
-                  title: Text(card.title),
-                  subtitle: Text(card.dateCreated.toString()),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _viewModel.removeCard(
-                      listIndex,
-                      cardIndex,
+              Stack(
+                children: [
+                  Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (card.imagePath != null &&
+                            card.imagePath!.isNotEmpty)
+                          AspectRatio(
+                            aspectRatio: 16 / 7,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                                bottomLeft: Radius.zero,
+                                bottomRight: Radius.zero,
+                              ),
+                              clipBehavior: Clip.hardEdge,
+                              child: Container(
+                                color: Colors.grey.shade400,
+                                child: Image.network(
+                                  card.imagePath!,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
+                            ),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(Utility().formatDate(card.dateCreated)),
+                              const SizedBox(height: 5),
+                              Text(
+                                card.title,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: 8,
+                    right: 7,
+                    child: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => _viewModel.removeCard(
+                        listIndex,
+                        cardIndex,
+                      ),
+                    ),
+                  )
+                ],
               ),
               if (isHovering && !isIndexBefore) const HoveringCardPlaceHolder(),
             ],

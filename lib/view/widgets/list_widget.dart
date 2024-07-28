@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tutero_test/config/constants/key_constants.dart';
 import 'package:tutero_test/model/list_model.dart';
+import 'package:tutero_test/view/widgets/alert_dialog_widget.dart';
 import 'package:tutero_test/view/widgets/card_widget.dart';
 import 'package:tutero_test/view/widgets/hover_card_placeholder_widget.dart';
 import 'package:tutero_test/view_model/board_view_model.dart';
@@ -213,30 +214,12 @@ class ListWidget extends StatelessWidget {
   }
 
   void _showAddCardDialog(BuildContext context) {
-    String cardTitle = '';
-
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Card'),
-          content: TextField(
-            onChanged: (value) {
-              cardTitle = value;
-            },
-            decoration: const InputDecoration(hintText: "Card Title"),
-          ),
-          actions: [
-            ElevatedButton(
-              child: const Text('Add'),
-              onPressed: () {
-                if (cardTitle.isNotEmpty) {
-                  _viewModel.addCard(listIndex, cardTitle);
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
+        return AlertDialogWidget(
+          listIndex: listIndex,
+          viewModel: _viewModel,
         );
       },
     );
