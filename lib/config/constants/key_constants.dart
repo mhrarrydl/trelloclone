@@ -7,3 +7,4 @@ const String keyCards = 'cards';
 // In app keys
 const String keyAppFromListIndex = 'fromListIndex';
 const String keyAppFromCardIndex = 'fromCardIndex';
+const String keyAppToCardIndex = 'toCardIndex';

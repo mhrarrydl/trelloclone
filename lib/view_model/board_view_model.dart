@@ -19,7 +19,47 @@ class BoardViewModel extends ChangeNotifier {
       title: 'Completed',
       cards: [
         CardModel(
-          title: 'Hello',
+          title: 'Hello1',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello2',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello3',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello4',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello5',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello6',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello7',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello8',
+          dateCreated: DateTime.now(),
+          id: 122,
+        ),
+        CardModel(
+          title: 'Hello9',
           dateCreated: DateTime.now(),
           id: 122,
         ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tutero_test/config/constants/key_constants.dart';
 import 'package:tutero_test/model/card_model.dart';
+import 'package:tutero_test/view/widgets/hover_placeholder_widget.dart';
 import 'package:tutero_test/view_model/board_view_model.dart';
+// import 'dart:developer' as devtools show log;
 
 class CardWidget extends StatelessWidget {
   final CardModel card;
@@ -46,6 +48,7 @@ class CardWidget extends StatelessWidget {
         hitTestBehavior: HitTestBehavior.opaque,
         onAcceptWithDetails: (details) {
           var data = details.data;
+          // Checking if the details data is of card data type
           if (data.containsKey(keyAppFromCardIndex)) {
             _viewModel.moveCard(
               fromListIndex: data[keyAppFromListIndex]!,
@@ -55,19 +58,49 @@ class CardWidget extends StatelessWidget {
             );
           }
         },
+        onWillAcceptWithDetails: (details) {
+          var data = details.data;
+          return data.containsKey(keyAppFromCardIndex);
+        },
         builder: (context, acceptedData, rejectedData) {
-          return Card(
-            child: ListTile(
-              title: Text(card.title),
-              subtitle: Text(card.dateCreated.toString()),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () => _viewModel.removeCard(
-                  listIndex,
-                  cardIndex,
+          bool isHovering = acceptedData.isNotEmpty;
+          bool isIndexBefore = false;
+          if (isHovering) {
+            var fromCardIndex = acceptedData.first![keyAppFromCardIndex]!;
+            var fromListIndex = acceptedData.first![keyAppFromListIndex]!;
+            isIndexBefore = (
+                // The card index is 1 less or 2 less or lesser than fromCardIndex
+                listIndex == fromListIndex && cardIndex <= fromCardIndex - 1 ||
+                    cardIndex <= fromCardIndex - 2 ||
+                    // The card index is more than, equal to, or less than fromCardIndex but in a different list
+                    (listIndex != fromListIndex &&
+                        (cardIndex >= fromCardIndex ||
+                            cardIndex == fromCardIndex ||
+                            cardIndex < fromCardIndex)));
+          }
+
+          // if (isHovering) {
+          //   devtools.log(
+          //       "${acceptedData.first}, cardIndex: $cardIndex, listIndex: $listIndex");
+          // }
+          return Column(
+            children: [
+              if (isHovering && isIndexBefore) const HoveringPlaceHolder(),
+              Card(
+                child: ListTile(
+                  title: Text(card.title),
+                  subtitle: Text(card.dateCreated.toString()),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => _viewModel.removeCard(
+                      listIndex,
+                      cardIndex,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              if (isHovering && !isIndexBefore) const HoveringPlaceHolder(),
+            ],
           );
         },
       ),

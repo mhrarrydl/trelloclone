@@ -41,27 +41,28 @@ class _HomeViewState extends State<HomeView> {
       body: AnimatedBuilder(
           animation: _viewModel,
           builder: (context, _) {
-            return Scrollbar(
-              controller: _scrollController,
-              interactive: true,
-              trackVisibility: true,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    _viewModel.lists.length,
-                    (index) {
-                      return ListWidget(
-                        list: _viewModel.lists[index],
-                        listIndex: index,
-                        viewModel: _viewModel,
-                      );
-                    },
+            return Column(
+              children: [
+                Flexible(
+                  child: Scrollbar(
+                    controller: _scrollController,
+                    interactive: true,
+                    trackVisibility: true,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _viewModel.lists.length,
+                      itemBuilder: (context, index) {
+                        return ListWidget(
+                          list: _viewModel.lists[index],
+                          listIndex: index,
+                          viewModel: _viewModel,
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
+              ],
             );
           }),
     );
