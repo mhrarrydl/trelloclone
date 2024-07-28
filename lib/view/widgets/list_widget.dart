@@ -72,132 +72,118 @@ class ListWidget extends StatelessWidget {
       child: DragTarget<Map<String, int>>(
         hitTestBehavior: HitTestBehavior.opaque,
         onAcceptWithDetails: (details) {
+          var data = details.data;
           // Checking if the details data is of List data type
-          if (!details.data.containsKey(keyAppFromCardIndex)) {
+          if (!data.containsKey(keyAppFromCardIndex)) {
             var fromListIndex = details.data[keyAppFromListIndex]!;
             var toListIndex = listIndex;
             _viewModel.moveList(fromListIndex, toListIndex);
+          } else if ((data[keyAppFromListIndex] != listIndex)) {
+            _viewModel.moveCard(
+              fromListIndex: data[keyAppFromListIndex]!,
+              fromCardIndex: data[keyAppFromCardIndex]!,
+              toListIndex: listIndex,
+              toCardIndex: list.cards.length,
+            );
           }
-          //  else {
-          //   devtools.log("ListData: ${details.data}, listIndex: $listIndex");
-          // }
         },
         onWillAcceptWithDetails: willAcceptDetails,
         builder: (context, acceptedData, rejectedData) {
           return Column(
             children: [
-              Container(
-                margin: const EdgeInsets.all(10.0),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                width: 300,
-                color: Colors.grey[300],
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          list.title,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+              Flexible(
+                fit: FlexFit.loose,
+                child: Container(
+                  margin: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  width: 300,
+                  color: Colors.grey[300],
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            list.title,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () => _showAddCardDialog(context),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  _viewModel.removeList(listIndex);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Flexible(
+                        child: SingleChildScrollView(
+                          child: DragTarget<Map<String, int>>(
+                            onWillAcceptWithDetails: willAcceptDetails,
+                            onAcceptWithDetails: (details) {
+                              var data = details.data;
+                              // Checking if the details data is of card data type
+                              if (details.data
+                                      .containsKey(keyAppFromCardIndex) &&
+                                  (data[keyAppFromListIndex] != listIndex)) {
+                                _viewModel.moveCard(
+                                  fromListIndex: data[keyAppFromListIndex]!,
+                                  fromCardIndex: data[keyAppFromCardIndex]!,
+                                  toListIndex: listIndex,
+                                  toCardIndex: list.cards.length,
+                                );
+                              }
+                            },
+                            builder: (context, acceptedCards, rejectedCards) {
+                              bool isHovering = acceptedCards.isNotEmpty;
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if ((isHovering &&
+                                          acceptedCards
+                                                  .first![keyAppToCardIndex] ==
+                                              0) ||
+                                      acceptedData.isNotEmpty &&
+                                          acceptedData
+                                                  .first![keyAppToCardIndex] ==
+                                              0)
+                                    const HoveringPlaceHolder(),
+                                  ...list.cards.asMap().entries.map(
+                                    (entry) {
+                                      return CardWidget(
+                                        viewModel: _viewModel,
+                                        card: entry.value,
+                                        listIndex: listIndex,
+                                        cardIndex: entry.key,
+                                      );
+                                    },
+                                  ),
+                                  if (isHovering &&
+                                      acceptedCards.first![keyAppToCardIndex] ==
+                                          list.cards.length &&
+                                      list.cards.isNotEmpty)
+                                    const HoveringPlaceHolder(),
+                                  const SizedBox(height: 20),
+                                ],
+                              );
+                            },
                           ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            _viewModel.removeList(listIndex);
-                          },
-                        ),
-                      ],
-                    ),
-                    DragTarget<Map<String, int>>(
-                      onWillAcceptWithDetails: willAcceptDetails,
-                      onAcceptWithDetails: (details) {
-                        var data = details.data;
-                        // Checking if the details data is of card data type
-                        if (details.data.containsKey(keyAppFromCardIndex) &&
-                            (data[keyAppFromListIndex] != listIndex)) {
-                          _viewModel.moveCard(
-                            fromListIndex: data[keyAppFromListIndex]!,
-                            fromCardIndex: data[keyAppFromCardIndex]!,
-                            toListIndex: listIndex,
-                            toCardIndex: list.cards.length,
-                          );
-                        }
-                      },
-                      builder: (context, acceptedCards, rejectedCards) {
-                        bool isHovering = acceptedCards.isNotEmpty;
-                        // if (isHovering) {
-                        //   devtools.log(
-                        //       "${acceptedCards.first}, listIndex: $listIndex");
-                        // }
-                        // if (acceptedData.isNotEmpty &&
-                        //     acceptedData.first![keyAppToCardIndex] == 0) {
-                        //   devtools.log("Entered");
-                        // }
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if ((isHovering &&
-                                    acceptedCards.first![keyAppToCardIndex] ==
-                                        0) ||
-                                acceptedData.isNotEmpty &&
-                                    acceptedData.first![keyAppToCardIndex] == 0)
-                              const HoveringPlaceHolder(),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: list.cards.length,
-                              itemBuilder: (context, index) {
-                                if (index == 0) {}
-                                return CardWidget(
-                                  viewModel: _viewModel,
-                                  card: list.cards[index],
-                                  listIndex: listIndex,
-                                  cardIndex: index,
-                                );
-                              },
-                            ),
-                            if (isHovering &&
-                                acceptedCards.first![keyAppToCardIndex] ==
-                                    list.cards.length &&
-                                list.cards.isNotEmpty)
-                              const HoveringPlaceHolder(),
-                            const SizedBox(height: 20),
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () => _showAddCardDialog(context),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: DragTarget<Map<String, int>>(
-                  builder: (context, candidateData, rejectedData) {
-                    return Container(width: 300);
-                  },
-                  onWillAcceptWithDetails: (details) {
-                    var data = details.data;
-                    return data.containsKey(keyAppFromCardIndex);
-                  },
-                  onAcceptWithDetails: (details) {
-                    var data = details.data;
-                    // Checking if the details data is of card data type
-                    if (details.data.containsKey(keyAppFromCardIndex) &&
-                        (data[keyAppFromListIndex] != listIndex)) {
-                      _viewModel.moveCard(
-                        fromListIndex: data[keyAppFromListIndex]!,
-                        fromCardIndex: data[keyAppFromCardIndex]!,
-                        toListIndex: listIndex,
-                        toCardIndex: list.cards.length,
-                      );
-                    }
-                  },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
