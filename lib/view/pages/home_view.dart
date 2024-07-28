@@ -38,8 +38,8 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: AnimatedBuilder(
-          animation: _viewModel,
+      body: ListenableBuilder(
+          listenable: _viewModel,
           builder: (context, _) {
             return Column(
               children: [
