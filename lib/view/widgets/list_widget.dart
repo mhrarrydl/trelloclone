@@ -32,11 +32,14 @@ class ListWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  list.title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.11,
+                  child: Text(
+                    list.title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -114,11 +117,14 @@ class ListWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      list.title,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.11,
+                      child: Text(
+                        list.title,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Row(
