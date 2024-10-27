@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tutero_test/view/widgets/list_widget.dart';
 import 'package:tutero_test/view_model/board_view_model.dart';
+import 'package:tutero_test/view/pages/home_view.dart'; 
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
