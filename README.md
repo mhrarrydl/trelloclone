@@ -1,44 +1,49 @@
-# Trello Clone
+Berikut adalah versi terjemahan dalam bahasa Indonesia dari dokumentasi yang Anda berikan:
 
-# Building and Running the Flutter Application
+# Klon Trello
 
-## Prerequisites:
-Before you begin, ensure you have the following installed:
-- **Flutter SDK:** Follow the official Flutter installation instructions for your operating system.
-- **Dart SDK:** Flutter requires the Dart SDK. It's included with the Flutter SDK, so you don't need to install it separately.
-## Getting Started:
-1. Clone the repository:
+# Membangun dan Menjalankan Aplikasi Flutter
+
+## Prasyarat:
+Sebelum Anda mulai, pastikan Anda telah menginstal yang berikut:
+- **Flutter SDK:** Ikuti petunjuk instalasi Flutter resmi untuk sistem operasi Anda.
+- **Dart SDK:** Flutter memerlukan Dart SDK. SDK ini sudah termasuk dalam Flutter SDK, jadi Anda tidak perlu menginstalnya secara terpisah.
+
+## Memulai:
+1. Klon repositori:
 	```
-	https://github.com/shivangsorout/tutero_test
+	https://github.com/mhrarrydl/trelloclone
 	```
-2. Navigate to the project directory:
+2. Arahkan ke direktori proyek:
 	```
-	cd <project_directory>
+	cd <direktori_proyek>
 	```
-3. Install dependencies:
+3. Instal dependensi:
 	```
 	flutter pub get
 	```
-## Running the Application:
-**Web**   
-Ensure you have a web browser installed in your system.   
 
-- Run the command in terminal:
+## Menjalankan Aplikasi:
+**Web**  
+Pastikan Anda memiliki browser web yang terinstal di sistem Anda.
+
+- Jalankan perintah di terminal:
  ```
  flutter run
  ```
-## Features implemented:
-### Core Features:
- - [x] Draggable cards + lists (lists can be reorganized horizontally, cards can be 
-reorganized vertically / regrouped into adjacent lists)
- - [x] Horizontally scrolling viewport, vertically scrollable lists
- - [x] Card creation
- - [x] List creation
- - [x] Clearly defined models for lists and cards
- - [x] Card + list deletion
-### Additional Features:
- - [x] Cover (image)
- - [x] Card popup
- - [x] Great looking UI
 
-By following these instructions, you'll be able to build, run, and configure the Flutter application.
+## Fitur yang Diimplementasikan:
+### Fitur Inti:
+ - [x] Kartu yang dapat diseret + daftar (daftar dapat diatur ulang secara horizontal, kartu dapat diatur ulang secara vertikal / dikelompokkan ke dalam daftar yang berdekatan)
+ - [x] Tampilan yang menggulir secara horizontal, daftar yang dapat digulir secara vertikal
+ - [x] Pembuatan kartu
+ - [x] Pembuatan daftar
+ - [x] Model yang didefinisikan dengan jelas untuk daftar dan kartu
+ - [x] Penghapusan kartu + daftar
+
+### Fitur Tambahan:
+ - [x] Sampul (gambar)
+ - [x] Popup kartu
+ - [x] Antarmuka pengguna yang menarik
+
+Dengan mengikuti instruksi ini, Anda akan dapat membangun, menjalankan, dan mengonfigurasi aplikasi Flutter.
