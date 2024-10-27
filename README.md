@@ -1,7 +1,8 @@
 Berikut adalah versi terjemahan dalam bahasa Indonesia dari dokumentasi yang Anda berikan:
 
-# Klon Trello
-
+# Clone Trello
+# NAMA	: MAHIR ARRIYADL
+# NIM		: 211240001184
 # Membangun dan Menjalankan Aplikasi Flutter
 
 ## Prasyarat:
